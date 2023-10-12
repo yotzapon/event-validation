@@ -1,0 +1,16 @@
+config: &default
+  server: &server
+    port: 3000
+  repo: &repo
+    url: "https://github.com/yotzapon/event-validation.git"
+    remoteName: "origin"   # "HEAD"
+    auth:
+      userName: ""
+      passWord: ""
+  
+local: 
+  <<: *default  
+
+  
+dev:
+  <<: *default  
