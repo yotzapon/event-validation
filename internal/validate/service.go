@@ -1,22 +1,28 @@
 package validate
 
 import (
+	"event-validation/internal/config"
 	"event-validation/internal/repo/git"
 
 	"github.com/labstack/echo"
 )
 
 type Service interface {
-	Pull(c echo.Context) error
+	Download(c echo.Context) error
 	Validate(c echo.Context) error
 }
 
 type service struct {
-	gitRepo git.GitRepository
+	gitRepo          git.Git
+	eventsFileConfig *config.EventsFile
+	eventData        *eventYamlModel
 }
 
-func NewService(gitRepo git.GitRepository) Service {
-	return &service{gitRepo: gitRepo}
+func NewService(git git.Git, evf *config.EventsFile) Service {
+	return &service{
+		gitRepo:          git,
+		eventsFileConfig: evf,
+	}
 }
 
 type Resp struct {

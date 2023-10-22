@@ -1,16 +1,20 @@
 config: &default
-  server: &server
+  server:
     port: 3000
-  repo: &repo
-    url: "https://github.com/yotzapon/event-validation.git"
-    remoteName: "origin"   # "HEAD"
-    auth:
-      userName: ""
-      passWord: ""
+  repo:
+    eventsFile:
+      dir: "./tmp/pages/events"
+    git:
+      url: "https://github.com/yotzapon/apispec.git"
+      remoteName: "origin"   # "HEAD"
+      destination: "./tmp/"
+      auth:
+        userName: "token"
+        passWord: "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"
+
   
 local: 
   <<: *default  
 
-  
 dev:
   <<: *default  

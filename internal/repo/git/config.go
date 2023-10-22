@@ -6,5 +6,6 @@ type Config struct {
 		Username string // yes, this can be anything except an empty string
 		Password string
 	}
-	RemoteName string
+	RemoteName  string
+	Destination string
 }

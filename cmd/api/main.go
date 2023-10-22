@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+
 	"time"
 
 	cfg "event-validation/internal/config"
@@ -32,12 +33,13 @@ func run() error {
 		e.Logger.Fatal("Unexpected error to read configuration: %v.", err)
 	}
 
-	gitRepo := git.NewGit(&conf.Git)
-	v := validate.NewService(gitRepo)
+	gitRepo := git.NewGit(&conf.Repo.Git)
+
+	v := validate.NewService(gitRepo, &conf.Repo.EventsFile)
 
 	v1 := e.Group("/v1")
-	v1.GET("/pull", v.Pull).Name = "pull"
-	v1.GET("/validate", v.Validate).Name = "validate"
+	v1.GET("/api-spec", v.Download).Name = "clone"
+	v1.POST("/api-spec/event", v.Validate).Name = "validate"
 
 	// Start server
 	go func() {
@@ -47,7 +49,7 @@ func run() error {
 		}
 	}()
 
-	// Wait for interrupt signal to gracefully shutdown the server with
+	// Wait for interrupt signal to gracefully shut down the server with
 	// a timeout of 10 seconds.
 	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)
