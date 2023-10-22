@@ -64,12 +64,16 @@ func (s *service) Validate(c echo.Context) error {
 	yamlFiles, err := listYAMLFilesInDirectory(directoryPath)
 	if err != nil {
 		fmt.Printf("error listing YAML files: %v\n", err)
-		return err
+		return c.JSON(400, ErrorResp{&Resp{
+			Code: 400, Message: "error listing .yaml files: " + err.Error(),
+		}})
 	}
 
 	if len(yamlFiles) == 0 {
 		fmt.Println("no .yaml files found in the directory.")
-		return errors.New("file not found")
+		return c.JSON(400, ErrorResp{&Resp{
+			Code: 400, Message: ".yaml files not found",
+		}})
 	}
 
 	switch req.ValidationType {
