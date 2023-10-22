@@ -41,9 +41,8 @@ var (
 	errInvalidName   = errors.New("invalid name")
 	errInvalidSchema = errors.New("invalid schema type")
 
-	topic         validationType = "topic"
-	schema        validationType = "schema"
-	supportedType                = []validationType{topic, schema}
+	topic  validationType = "topic"
+	schema validationType = "schema"
 )
 
 func (s *service) Validate(c echo.Context) error {
@@ -54,9 +53,10 @@ func (s *service) Validate(c echo.Context) error {
 		}})
 	}
 
-	if !isValidType(req.ValidationType) {
+	err := validateRequest(req)
+	if err != nil {
 		return c.JSON(400, ErrorResp{&Resp{
-			Code: 400, Message: "unknown validationType",
+			Code: 400, Message: err.Error(),
 		}})
 	}
 
@@ -109,13 +109,22 @@ func (s *service) Validate(c echo.Context) error {
 	}
 }
 
-func isValidType(t validationType) bool {
-	for _, vt := range supportedType {
-		if t == vt {
-			return true
-		}
+func validateRequest(req *Request) error {
+	if len(req.Values.Name) == 0 {
+		return errors.New("invalid values.name")
 	}
-	return false
+
+	switch req.ValidationType {
+	case topic:
+		return nil
+	case schema:
+		if req.Values.Schema == nil {
+			return errors.New("invalid values.schema")
+		}
+		return nil
+	default:
+		return errors.New("validationType is not supported")
+	}
 }
 
 func listYAMLFilesInDirectory(dirPath string) ([]string, error) {

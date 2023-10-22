@@ -8,7 +8,7 @@ import (
 )
 
 type Service interface {
-	Download(c echo.Context) error
+	CloneSpec(c echo.Context) error
 	Validate(c echo.Context) error
 }
 

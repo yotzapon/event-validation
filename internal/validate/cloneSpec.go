@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func (s *service) Download(c echo.Context) error {
+func (s *service) CloneSpec(c echo.Context) error {
 	err := s.gitRepo.Clone()
 	if err != nil {
 		log.Printf("git clone failed: %v", err.Error())
