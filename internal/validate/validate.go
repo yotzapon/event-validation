@@ -42,8 +42,8 @@ var (
 	errInvalidSchema = errors.New("invalid schema type")
 
 	topic         validationType = "topic"
-	Schema        validationType = "schema"
-	supportedType                = []validationType{topic, Schema}
+	schema        validationType = "schema"
+	supportedType                = []validationType{topic, schema}
 )
 
 func (s *service) Validate(c echo.Context) error {
@@ -82,7 +82,7 @@ func (s *service) Validate(c echo.Context) error {
 		}
 		return c.JSON(200, Resp{200, "Ok"})
 
-	case Schema:
+	case schema:
 		err = s.validateEventName(yamlFiles, req.Values.Name)
 		if err != nil {
 			return c.JSON(400, ErrorResp{&Resp{
