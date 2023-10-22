@@ -20,6 +20,8 @@ func NewGit(conf *Config) Git {
 	}
 }
 
+const gitToken = "GIT_TOKEN"
+
 func (g *gitRepository) Clone() error {
 
 	path := g.config.Destination
@@ -34,15 +36,13 @@ func (g *gitRepository) Clone() error {
 		URL: g.config.Url,
 		Auth: &http.BasicAuth{
 			Username: g.config.Auth.Username,
-			Password: g.config.Auth.Password,
+			Password: os.Getenv(gitToken),
 		},
 	})
 
 	if err != nil {
 		return err
 	}
-
-	//g.gitRepo = *repo
 
 	return nil
 }

@@ -10,7 +10,6 @@ config: &default
       destination: "./tmp/"
       auth:
         userName: "token"
-        passWord: "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"
 
   
 local: 
