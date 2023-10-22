@@ -83,7 +83,6 @@ func (s *service) Validate(c echo.Context) error {
 		return c.JSON(200, Resp{200, "Ok"})
 
 	case Schema:
-
 		err = s.validateEventName(yamlFiles, req.Values.Name)
 		if err != nil {
 			return c.JSON(400, ErrorResp{&Resp{
@@ -158,8 +157,6 @@ func (s *service) validateEventName(yamlFiles []string, eventName string) error 
 			s.eventData = &eventData
 			return nil
 		}
-
-		s.eventData = &eventData
 	}
 	return errInvalidName
 }
