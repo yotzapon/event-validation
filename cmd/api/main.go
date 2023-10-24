@@ -38,8 +38,8 @@ func run() error {
 	v := validate.NewService(gitRepo, &conf.Repo.EventsFile)
 
 	v1 := e.Group("/v1")
-	v1.GET("/api-spec", v.CloneSpec).Name = "clone"
-	v1.POST("/api-spec/event", v.Validate).Name = "validate"
+	v1.GET("/api-specs", v.CloneSpec).Name = "clone"
+	v1.POST("/api-specs/event", v.Validate).Name = "validate"
 
 	// Start server
 	go func() {
