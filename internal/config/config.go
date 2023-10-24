@@ -21,7 +21,14 @@ type Config struct {
 		Timeout         time.Duration `conf:"default:5s"`
 		ShutdownTimeout time.Duration `conf:"default:5s"`
 	}
-	Git git.Config
+	Repo struct {
+		EventsFile EventsFile
+		Git        git.Config
+	}
+}
+
+type EventsFile struct {
+	Dir string
 }
 
 func ReadConfigFile(configModel interface{}, systemEnv string) error {
